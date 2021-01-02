@@ -1,0 +1,5 @@
+steps in dp:
+    if u see a prob with recursion,then u can reduce its complexity by storing certain results of then
+    previous processes (memoize) which results us not use the func again to calculate that results
+    then we go bottom up
+    https://www.youtube.com/watch?v=vYquumk4nWw&ab_channel=CSDojo
