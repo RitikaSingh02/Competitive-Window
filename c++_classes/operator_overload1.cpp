@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <complex.h>
 using namespace std;
 class A
 {
@@ -23,17 +22,20 @@ class A
     }
     void show()
     {
-        cout<< a << "+"<<" i"<<b;
+        cout<< a << "+"<<" i"<<b <<endl;
     }
 };
 
 int main(){
 
-    A c1,c2,c3;
+    A c1,c2,c3,c4;
     c1.setdata(1,2);
     c2.setdata(3,4);
-    c3=c1+c2;
+    c3=c1+c2;//overloading of a binary operator which requires two arguments first is the caller object and the second is the object on which the operation is performed
+    c4 = c1.operator+(c2);
     c3.show();
+    c4.show();
+    //same output
 
 
 }
