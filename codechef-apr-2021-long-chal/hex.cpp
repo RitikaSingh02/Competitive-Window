@@ -22,29 +22,43 @@ string decToBinary(int n)
 
     return res;
 }
-bool counter = true;
-
-string Subsequences(string s, string search, string out)
+bool isSubsequence(string s, string t)
 {
-    int len = s.size();
-    int search_size = search.size();
-    cout << "search" << search << "\n";
-    string sub = "";
+    // find the size of the substring
+    int sz = s.size();
 
-    if (out == search)
+    // empty string is a substring of all the strings
+    if (sz == 0)
     {
-        counter = true;
-        return out;
+        return true;
     }
 
-    Subsequences(s.substr(1), search, out + s[0]);
+    // take index of the substring to be 0
+    int indx = 0;
 
-    // output is passed without
-    // including the Ist character
-    // of Input string
-    Subsequences(s.substr(1), search, out);
+    // iterate over the actual given string
+    for (int i = 0; i < t.size(); i++)
+    {
 
-    // return false;
+        // if the substring character at `indx` is same as the ith caharcter of the given string
+        if (t[i] == s[indx])
+        {
+
+            // go to the next index of the substring
+            indx++;
+        }
+
+        // as soon as we finish finding all the characters of the substring
+        if (indx >= sz)
+        {
+
+            // that means the substring is present in the given string
+            return true;
+        }
+    }
+
+    // if we iterated over all the given string and still couldn't find all the substring characters
+    return false;
 }
 
 int main()
@@ -60,12 +74,11 @@ int main()
         {
             // cout<<"b";
             string res = decToBinary(i);
-            cout << "binary" << res << "\n";
-            Subsequences(s, res, "");
-            if (counter == false)
+            // cout << "\nbinary" << res << "\n";
+
+            if (isSubsequence(res, s) == false)
             {
-                cout << "\n"
-                     << "res" << res << "\n";
+                cout << res << "\n";
                 break;
             }
             i++;
