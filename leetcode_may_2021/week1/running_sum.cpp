@@ -5,7 +5,7 @@ public:
      vector <int> res{nums[0]};
         int n = nums.size();
         auto it = nums.begin();
-        it = next(it , 1); // did this coz nums.begin() is somewhere  just outside the vector to the left 
+        it = next(it , 1); // did this coz nums.begin() is on the first element of the vector
         // and nums.end() is somewhere just outside the vector to the right;
         
         for(int i =1 ; i<n ; i++)
