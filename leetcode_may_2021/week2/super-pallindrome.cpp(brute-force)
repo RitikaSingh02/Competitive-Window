@@ -1,0 +1,60 @@
+//https://leetcode.com/explore/challenge/card/may-leetcoding-challenge-2021/599/week-2-may-8th-may-14th/3736/
+class Solution {
+public:
+    
+    long long convert_long(string s)
+    {
+        string str = "";
+        str+=s[0];
+        long long n = stoi(str);
+        str= "";
+        for(int i =1 ; i < s.size(); i++)
+        {
+            str+= s[i];
+            n = n *10 + stoi(str);
+            str = "";
+        }
+        
+        return n ;
+    }
+    
+    bool pallindrome(string str , long long len)
+    {
+            for (int i = 0; i < len / 2; i++) {
+                if (str[i] != str[len - i - 1])
+                    return false;
+            }
+        return true;
+    }
+    int superpalindromesInRange(string left, string right) {
+        long long r , l ;
+        l= convert_long(left);
+        r = convert_long(right);
+        int count =0 ;
+        long long out = r - l +1;
+        for(long long i = l ; i<=r ; i++)
+        {
+            auto sqr = sqrt(i);
+            if( ceil((double)sqr) == floor((double)sqr) )//perfect square
+            {
+                string s = to_string(i);
+                long long len = s.size();
+                if( pallindrome(s , len)){
+                    //palindrome no
+                    // cout<<i <<" ";
+                    s = to_string(long(sqr));
+                    len = s.size();
+
+                    if(pallindrome(s , len))       // pallindrome sqrt
+                    {
+                        count++;
+                    }
+                }
+
+            }
+                    
+        }
+
+        return count;
+    }
+};
