@@ -1,32 +1,58 @@
-class Solution
-{
+class Solution {
 public:
-    int memo[1001][1001];
-
-    int lcs(string s1, string s2, int n1, int n2, int memo[10001][1001])
+    int dp[1001][1001];
+    int fun(string s1 , string s2 , int n1 , int n2)
     {
-        if (memo[n1][n2] != -1)
-            return memo[n1][n2];
-        if (n1 == 0 || n2 == 0)
-            return 0;
-        if (s1[n1 - 1] == s2[n2 - 1])
-            memo[n1][n2] = 1 + lcs(s1, s2, n1 - 1, n2 - 1, memo);
-        else
+        //memoized
+//         base case
+//         if(n1==0 || n2 ==0)
+//             return 0;
+//         if(dp[n1][n2]==-1)
+//         {
+//             if(s1[n1-1] == s2[n2-1])
+//             {
+//                 s1 = s1.substr(0 , n1-1);
+//                 s2 = s2.substr(0 , n2-1);
+//                 dp[n1][n2] = 1+ fun(s1 , s2 , n1-1 , n2-1);
+//             }
+//             else
+//             {
+//                 dp[n1][n2] =  max(fun(s1, s2.substr(0 , n2-1) , n1 , n2-1),fun(s1.substr(0 , n1-1), s2 , n1-1 , n2));             
+
+//             }
+//         }
+//      return dp[n1][n2];
+        
+        
+        //TOP DOWN
+        for(int i = 0 ; i <=n1 ; i++)
+            dp[i][0] = 0;
+        for(int i = 0 ; i <=n2 ; i++)
+            dp[0][i] = 0;
+
+        for(int i =1 ; i<=n1 ; i++)
         {
-            memo[n1][n2] = max(lcs(s1, s2, n1 - 1, n2, memo), lcs(s1, s2, n1, n2 - 1, memo));
+            for(int j = 1; j <=n2 ; j++)
+            {
+             
+                if(s1[i-1] == s2[j-1])
+                {
+       
+                    dp[i][j] = 1+ dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j] =  max(dp[i-1][j],dp[i][j-1]);             
+
+                }   
+            }
         }
+        return dp[n1][n2];
+    } 
 
-        return memo[n1][n2];
-    }
-    int longestCommonSubsequence(string text1, string text2)
-    {
-        int n1 = text1.size();
-        int n2 = text2.size();
-
-        for (int i = 0; i < n1 + 1; i++)
-            for (int j = 0; j < n2 + 1; j++)
-                memo[i][j] = -1;
-
-        return lcs(text1, text2, n1, n2, memo);
-    }
+    
+    int longestCommonSubsequence(string s1, string s2) {
+        //memest(dp , -1 , sizeof(dp));
+        return fun(s1, s2 , s1.size() , s2.size())    ;
+};
 };
