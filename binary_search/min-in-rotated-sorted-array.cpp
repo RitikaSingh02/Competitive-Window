@@ -5,7 +5,7 @@ public:
         
         int n = nums.size();
         int s =0 , e = n-1;
-        if(nums[e]>= nums[s])
+        if(nums[e]>= nums[s]) // that is the array is already sorted
             return nums[s];
         while(n--)
         {
