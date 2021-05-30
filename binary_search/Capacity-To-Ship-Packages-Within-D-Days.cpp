@@ -1,3 +1,4 @@
+// https://leetcode.com/submissions/detail/500435287/
 class Solution {
 public:
     int check( vector <int> weights , int days , int l )
