@@ -1,47 +1,37 @@
+#define mod 1000000007
 class Solution {
 public:
-    int kConcatenationMaxSum(vector<int>& arr, int k) {
+    int maxSum(vector<int> arr,int size){
+        long long  totalMax=0, currMax=0 ,  asize=arr.size();
         
-        //kadane's algo
-        int cons = 1e9 +7;
-        int n = arr.size() , max_all = INT_MIN , i =0 ,local_max = 0 ;
-        bool flag = false;
-        for(auto i : arr)
-        {
-            if(i<0)
-            {
-                flag = true;
-                break;
+        for(int i=0;i<size;i++){
+            currMax=(currMax+arr[i%asize]);
+            if(currMax<arr[i%asize]){
+                currMax=arr[i%asize];
+            }
+            if(currMax>totalMax){
+                totalMax=currMax;
             }
         }
-        while(i<n && flag)
-        {
-            local_max+=arr[i];
-            if(local_max > max_all)
-                max_all = local_max;
-            if(local_max<0)
-                local_max = 0;
-
-            i++;
-            
-            if(i==n && k>0)
-            {
-                i=0;
-                k-=1;
-                // cout<<"y";
-                // cout<<local_max<<" ";
-            }
-            if(k==0)
-                break;
-            
-        }
-        if(!flag)
-        {
-            long long int sum1= accumulate(arr.begin() , arr.end() , 0);
-            long long int sum = ((sum1%cons)%cons)*(k);//modulus multiplication property
-            max_all = (sum%cons); 
-        }
-        max_all = max(0, max_all);
-        return max_all % cons;
+        return totalMax % mod;
     }
+    int kConcatenationMaxSum(vector<int>& arr, int k) {
+        long int size=arr.size();
+        if(k==1){
+            return maxSum(arr,size);
+        }
+        else{
+            long long sum=0;
+            for(int i=0;i<arr.size();i++){
+                sum=(sum+arr[i]);
+            }
+            long long kSum=maxSum(arr,size*2);
+            if(sum>0){
+                kSum=(kSum+((k-2)*sum));
+            }
+            return kSum%mod;
+        }
+        return 0;
+    }
+
 };
