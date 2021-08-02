@@ -1,3 +1,4 @@
+//only runs for a perfect tree
 class Solution {
 public:
     //brute force
