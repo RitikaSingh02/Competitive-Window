@@ -1,61 +1,67 @@
-// https://leetcode.com/problems/palindrome-partitioning-ii/
 class Solution {
 public:
-    int minCut(string s) {
-        //brute force O(n3)
-        int n = s.size();
-        bool dp[n][n];
-        memset( dp, false, sizeof(dp) );
-        for(int g = 0 ; g < n ; g++)
-        {
-           for(int i = 0 , j = g ; j < n ; j++ , i++)
-           {
-               if(g==0)
-               {
-                   dp[i][j]= true;//string of len 1 is  pallindrome
-               }
-               else
-               {
-                    if(g==1)                   
-                    {
-                        if(s[i] == s[j])
-                            dp[i][j]=true;
-                        else
-                            dp[i][j]=false;
-                    }
-                   else
-                   {
-                       if(s[i]==s[j] && dp[i+1][j-1])
-                           dp[i][j]=true;
-                   }
-               }
-           }
+    //brute force
+    vector<Node*>vec;
+    bool helper(Node* root, int level , vector<Node*>&vec)
+    {
+        if (root == NULL) {
+            return false;
         }
-        //suffix partitioning concept
-        int dp1[n] ;
-        dp1[0]=0;
-        // for a string say "abccbccca"
-        //j=1 means result of a
-        //j = 3 means result of abc and so on so aur ans is in j = n
-        for(int j = 1 ; j < n ; j++)
+
+        if (level == 1)
         {
-            if(dp[0][j])
-                dp1[j] = 0;
+            vec.push_back(root);
+            return true;
+        }
+
+        bool left = helper(root->left, level - 1 , vec);
+        bool right = helper(root->right, level - 1 , vec);
+
+        return left || right;
+    }
+
+    void levelOrderTraversal(Node* root)
+    {
+        int level = 1;
+        while (helper(root, level , vec)) {
+            level++;
+        }
+    }
+    void fun( vector<Node*>&v)
+    {
+        for(int i = 1; i < v.size() ; i++)
+        {
+            if(i%2!=0)
+            {
+                //if i is odd that is left child
+                //find the parent and point next of this node to the right of the parent
+
+                int parent = (i-1)/2;
+                Node* temp = v[i];
+                Node* p = v[parent];
+                temp->next = p->right;
+            }
             else
             {
-                int min_cut = INT_MAX;
-                for(int i = j ; i>=1 ; i --)
+                //right child of any node
+                int parent = (i-2)/2;
+                // cout<<parent;
+                Node *temp = v[i];
+                Node* p = v[parent];
+                if(p->next)
                 {
-                    if(dp[i][j])
-                    {
-                        // if the suffix is pallindrome then check for the left over prefix
-                        min_cut = min(min_cut , dp1[i-1]);
-                    }
+                    temp->next = p->next->left;
                 }
-                dp1[j] = min_cut +1;
+                else
+                {
+                    temp->next = NULL;
+                }
             }
         }
-        
-        return dp1[n-1];
+    }
+    Node* connect(Node* root) {
+        levelOrderTraversal(root);
+        fun( vec);
+        return root;
     }
 };
