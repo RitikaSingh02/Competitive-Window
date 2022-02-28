@@ -47,3 +47,28 @@ int minimumElements(vector<int> &num, int x)
     if(dp[n-1][x] >= 1e9) return -1;
     return dp[n-1][x];
 }
+
+// space optimized
+
+int minimumElements(vector<int> &num, int x)
+{
+    int n = num.size();	
+	vector<int>prev(x+1 , 0) , curr( x +1 , 0);
+    for(int i = 0 ; i<=x ; i++)
+        if(i % num[0] == 0) prev[i]  = i/num[0];
+    	else prev[i] = 1e9;
+    for(int i = 1 ; i< n ; i++)
+    {
+        for(int j = 1 ; j <= x ; j++ )
+        {
+            int not_take = prev[j];
+            int take = INT_MAX;
+            if(num[i] <= j)
+                take = 1 + curr[j-num[i]];
+            curr[j] = min(take, not_take);
+        }
+        prev = curr;
+    }
+    if(prev[x] >= 1e9) return -1;
+    return prev[x];
+}
