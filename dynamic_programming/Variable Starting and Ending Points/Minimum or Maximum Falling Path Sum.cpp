@@ -56,20 +56,6 @@ int getMaxPathSum(vector<vector<int>> &matrix)
 
 //tabulation
 
- int fun(vector<vector<int>>matrix , int i , int j , vector<vector<int>>&dp)
-{
-    int m = matrix[0].size();
-    int n = matrix.size();
-    if(j < 0 || j >= m)  return -1e8;
-    if( i == 0 ) return matrix[0][j];
-   	if(dp[i][j]!=-1) return dp[i][j];
-    int curr = matrix[i][j];
-    int up = curr + fun(matrix ,i - 1 , j , dp);
-    int diag_left = curr + fun(matrix , i -1 , j-1 , dp);
-    int diag_right = curr + fun(matrix , i -1 , j + 1 , dp);
-    return dp[i][j] = max(up , max(diag_left , diag_right));
-    	
-}
 int getMaxPathSum(vector<vector<int>> &matrix)
 {
     int n = matrix.size();
