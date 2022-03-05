@@ -41,3 +41,28 @@ int cutRod(vector<int> &price, int n)
 }
 
 // tabulation
+int cutRod(vector<int> &price, int n)
+{
+    vector<vector<int>>dp(n , vector<int>(n + 1 , -1));
+// 	return fun( n - 1 , n , price , dp);
+    // initialisation
+    for(int i = 0 ; i <= n ; i++)
+        dp[0][i] = i * price[0];
+    // i denotes curr that is current index
+    for(int i = 1 ; i < n ; i++)
+    {
+        for(int j = 0 ; j <= n ; j++ )
+        {
+            int not_take = dp[i - 1][j];
+            int take = -1e9;
+            int rod_len = i + 1;
+            if(rod_len <= j)
+            {
+                int curr_val = price[i];
+                take = curr_val + dp[i][j - rod_len];
+            }
+            dp[i][j] = max(take , not_take);
+        }
+    }
+    return dp[n-1][n];
+}
